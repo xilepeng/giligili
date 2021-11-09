@@ -19,3 +19,12 @@ func BuildVideo(item model.Video) Video {
 		CreatedAt: item.CreatedAt.Unix(), //time.Time转换为int64（时间戳）
 	}
 }
+
+// BuildVideos 序列化视频列表
+func BuildVideos(items []model.Video) (videos []Video) {
+	for _, item := range items {
+		video := BuildVideo(item)
+		videos = append(videos, video)
+	}
+	return videos
+}
