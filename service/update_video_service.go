@@ -1,19 +1,20 @@
 package service
 
 import (
-	"giligili/model"
-	"giligili/serializer"
+	"github.com/xilepeng/giligili/model"
+	"github.com/xilepeng/giligili/serializer"
 )
 
-// CreateVideoService 视频投稿的服务
-type UpdateVideoService struct {
-	Title string `form:"title" json:"title" binding:"required,min=2,max=100"`
-	Info  string `form:"info" json:"info" binding:"max=3000"`
+// UpdateVideoService 更新视频的服务
+type UpdateVideoService struct { //将前端的数据绑定到结构体内
+	Title string `form:"title" json:"title" binding:"required,min=2,max=30"`
+	Info  string `form:"info" json:"info" binding:"max=300"`
 }
 
-// Create 创建视频
+// Update 更新视频
 func (service *UpdateVideoService) Update(id string) serializer.Response {
 	var video model.Video
+	//找到视频
 	err := model.DB.First(&video, id).Error
 	if err != nil {
 		return serializer.Response{
@@ -33,7 +34,6 @@ func (service *UpdateVideoService) Update(id string) serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-
 	return serializer.Response{
 		Data: serializer.BuildVideo(video),
 	}

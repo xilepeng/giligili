@@ -1,10 +1,11 @@
 package service
 
 import (
-	"giligili/serializer"
 	"mime"
 	"os"
 	"path/filepath"
+
+	"github.com/xilepeng/giligili/serializer"
 
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/google/uuid"
@@ -35,7 +36,6 @@ func (service *UploadTokenService) Post() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-
 	// 获取扩展名
 	ext := filepath.Ext(service.Filename)
 

@@ -8,9 +8,6 @@ WORKDIR /giligili
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api_server
 
-
-
-
 FROM alpine:3.7
 
 ENV REDIS_ADDR=""
@@ -34,3 +31,6 @@ ADD ./conf /www/conf
 RUN chmod +x /usr/bin/api_server
 
 ENTRYPOINT ["api_server"]
+
+
+

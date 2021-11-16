@@ -3,9 +3,10 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"giligili/conf"
-	"giligili/model"
-	"giligili/serializer"
+
+	"github.com/xilepeng/giligili/conf"
+	"github.com/xilepeng/giligili/model"
+	"github.com/xilepeng/giligili/serializer"
 
 	"github.com/gin-gonic/gin"
 	validator "gopkg.in/go-playground/validator.v8"
@@ -14,14 +15,15 @@ import (
 // Ping 状态检查页面
 func Ping(c *gin.Context) {
 	c.JSON(200, serializer.Response{
-		Code: 0,
-		Msg:  "Pong",
+		Status: 0,
+		Msg:    "Pong",
 	})
 }
 
 // CurrentUser 获取当前用户
 func CurrentUser(c *gin.Context) *model.User {
-	if user, _ := c.Get("user"); user != nil {
+	user, _ := c.Get("user")
+	if user != nil {
 		if u, ok := user.(*model.User); ok {
 			return u
 		}
@@ -35,15 +37,24 @@ func ErrorResponse(err error) serializer.Response {
 		for _, e := range ve {
 			field := conf.T(fmt.Sprintf("Field.%s", e.Field))
 			tag := conf.T(fmt.Sprintf("Tag.Valid.%s", e.Tag))
-			return serializer.ParamErr(
-				fmt.Sprintf("%s%s", field, tag),
-				err,
-			)
+			return serializer.Response{
+				Status: 40001,
+				Msg:    fmt.Sprintf("%s%s", field, tag),
+				Error:  fmt.Sprint(err),
+			}
 		}
 	}
 	if _, ok := err.(*json.UnmarshalTypeError); ok {
-		return serializer.ParamErr("JSON类型不匹配", err)
+		return serializer.Response{
+			Status: 40001,
+			Msg:    "JSON类型不匹配",
+			Error:  fmt.Sprint(err),
+		}
 	}
 
-	return serializer.ParamErr("参数错误", err)
+	return serializer.Response{
+		Status: 40001,
+		Msg:    "参数错误",
+		Error:  fmt.Sprint(err),
+	}
 }

@@ -1,6 +1,6 @@
 
 
-```shell
+```
 ➜  giligili git:(main) ✗ go build main.go
 
 ➜  giligili git:(main) ✗ ./main 
@@ -135,33 +135,15 @@ root@hfbpw:~# apt install htop
 
 
 
+
+
 ```
 
 
+## giligili视频网站
 
-# Singo
+## 项目地址[giligili](http://www.hfbpw.top)
 
-Singo: Simple Single Golang Web Service
-
-go-crud正式改名为Singo!
-
-使用Singo开发Web服务: 用最简单的架构，实现够用的框架，服务海量用户
-
-https://github.com/Gourouting/singo
-
-## Singo文档
-
-https://gourouting.github.io/
-
-## 视频实况教程
-
-[让我们写个G站吧！Golang全栈编程实况](https://space.bilibili.com/10/channel/detail?cid=78794)
-
-## 使用Singo开发的项目实例
-
-仿B站的G站：https://github.com/Gourouting/giligili
-
-Singo框架为移动端提供Token登录的案例: https://github.com/bydmm/singo-token-exmaple
 ## 目的
 
 本项目采用了一系列Golang中比较流行的组件，可以以本项目为基础快速搭建Restful Web API
@@ -171,7 +153,7 @@ Singo框架为移动端提供Token登录的案例: https://github.com/bydmm/sing
 本项目已经整合了许多开发API所必要的组件：
 
 1. [Gin](https://github.com/gin-gonic/gin): 轻量级Web框架，自称路由速度是golang最快的 
-2. [GORM](https://gorm.io/index.html): ORM工具。本项目需要配合Mysql使用 
+2. [GORM](http://gorm.io/docs/index.html): ORM工具。本项目需要配合Mysql使用 
 3. [Gin-Session](https://github.com/gin-contrib/sessions): Gin框架提供的Session操作工具
 4. [Go-Redis](https://github.com/go-redis/redis): Golang Redis客户端
 5. [godotenv](https://github.com/joho/godotenv): 开发环境下的环境变量工具，方便使用环境变量
@@ -179,13 +161,17 @@ Singo框架为移动端提供Token登录的案例: https://github.com/bydmm/sing
 7. 自行实现了国际化i18n的一些基本功能
 8. 本项目是使用基于cookie实现的session来保存登录状态的，如果需要可以自行修改为token验证
 
-本项目已经预先实现了一些常用的代码方便参考和复用:
+本项目已经实现了一些功能:
+1. 用户系统
+2. 视频上传
+3. 视频播放（防盗链）
+4. 图片上传
+5. 图片下载（防盗链）
+6. 视频评论
+7. 播放量记录
+8. 热点视频排行榜
+9. 简陋聊天室
 
-1. 创建了用户模型
-2. 实现了```/api/v1/user/register```用户注册接口
-3. 实现了```/api/v1/user/login```用户登录接口
-4. 实现了```/api/v1/user/me```用户资料接口(需要登录后获取session)
-5. 实现了```/api/v1/user/logout```用户登出接口(需要登录后获取session)
 
 本项目已经预先创建了一系列文件夹划分出下列模块:
 
@@ -207,18 +193,17 @@ MYSQL_DSN="db_user:db_password@/db_name?charset=utf8&parseTime=True&loc=Local" #
 REDIS_ADDR="127.0.0.1:6379" # Redis端口和地址
 REDIS_PW="" # Redis连接密码
 REDIS_DB="" # Redis库从0到10
-SESSION_SECRET="setOnProducation" # Seesion密钥，必须设置而且不要泄露
+SESSION_SECRE="" # Seesion密钥，必须设置而且不要泄露
 GIN_MODE="debug"
 ```
 
-## Go Mod
+## Go 依赖
 
-本项目使用[Go Mod](https://github.com/golang/go/wiki/Modules)管理依赖。
-
-```shell
-go mod init go-crud
-export GOPROXY=http://mirrors.aliyun.com/goproxy/
-go run main.go // 自动安装
+本项目使用[go mod]管理依赖，可自己运行项目，go mod会自动下载依赖
+如果包下载失败，请运行
+```.env
+go env -w GOPROXY=https://goproxy.io,direct
+go mod download
 ```
 
 ## 运行
