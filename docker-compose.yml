@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+  nginx:
+    image: registry.ap-southeast-1.aliyuncs.com/hfbpw/giligili-vue:v0.0.3
+    restart: always
+    ports:
+      - 3001:80
+
+  gili-api:
+    build: ./
+    image: giligili:latest
+    container_name: gili-api
+    restart: always
+    environment:
+      MYSQL_DSN: "root:123456@tcp(172.16.0.2:3306)/giligili?charset=utf8mb4,utf8&parseTime=True&loc=Local"
+      REDIS_ADDR: "172.16.0.2:6379"
+      REDIS_DB: "0"
+      SESSION_SECRET: "rBaXcd1PPrC1"
+      GIN_MODE: "release"
+    ports:
+      - 3002:3000
+    depends_on:
+      - redis
+      - mysql
+
+  mysql:
+    image: mysql:5.6
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - data:/var/lib/mysql/data
+    ports:
+      - 3306:3306
+
+  redis:
+    image: redis
+    restart: always
+    volumes:
+      - data:/data
+    ports:
+      - 6379:6379
+      
+volumes:
+  data: {}
